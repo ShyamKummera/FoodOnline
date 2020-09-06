@@ -10,7 +10,7 @@ urlpatterns = [
     path('',views.showIndex,name='pwn_main'),
     path('pwn_login_check/',views.pwn_login_check,name='pwn_login_check'),
     path('welcome/',views.welcome,name='welcome'),
-
+# ==========================================================================================
     path('state/',views.openState,name='state'),
     path('savestateform',views.savestateform,name='savestateform'),
     path('savestateformredirect/',views.savestateformredirect,name='savestateformredirect'),
@@ -18,7 +18,7 @@ urlpatterns = [
     path('deletestate/',views.deletestate,name='deletestate'),
     path('statedeleteconfirmYes/',views.statedeleteconfirmYes,name='statedeleteconfirmYes'),
     path('statedeleteconfirmNo/',views.statedeleteconfirmNo,name='statedeleteconfirmNo'),
-
+# ==========================================================================================
 
     path('city/',views.openCity,name='city'),
     path('savecityform/',views.savecityform,name='savecityform'),
@@ -28,13 +28,14 @@ urlpatterns = [
     path('citydeleteconfirmYes/',views.citydeleteconfirmYes,name='citydeleteconfirmYes'),
     path('citydeleteconfirmNo/',views.citydeleteconfirmNo,name='citydeleteconfirmNo'),
 
-
-# ===============================================================================
+# =========================================================================================
     path('cuisine/',views.openCusine,name='cuisine'),
     path('savecuisineform/',views.savecuisineform,name='savecuisineform'),
     path('savecuisineformredirect/',views.savecuisineformredirect,name='savecuisineformredirect'),
     path('updatecuisine/<int:pk>',views.updatecuisine,name='updatecuisine'),
-
+    path('deletecuisine/',views.deletecuisine,name='deletecuisine'),
+    path('cuisinedeleteconfirmYes/',views.cuisinedeleteconfirmYes,name='cuisinedeleteconfirmYes'),
+    path('cuisinedeleteconfirmNo/',views.cuisinedeleteconfirmNo,name='cuisinedeleteconfirmNo'),
 
 # =============================================================================================
 

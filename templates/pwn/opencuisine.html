@@ -28,6 +28,17 @@
     </tr>
     </table>
 
+    {% if confirm %}
+        <table align="center" width="1000px" style="background-color: #ffc3c6;height: 50px">
+        <tr align="center">
+        <th style="font-size: 20px;color: blue">Do you want Delete this?  :&nbsp;&nbsp;&nbsp;&nbsp;
+       <a href="{% url 'cuisinedeleteconfirmYes' %}?yesid={{ confirm }}"><img src="{% static 'images/confirm.png' %}">Yes</a>&nbsp;&nbsp;
+       <a href="{% url 'cuisinedeleteconfirmNo' %}?noid={{ confirm }}"><img src="{% static 'images/cancel.png' %}">No</a>
+        </th>
+        </tr>
+        </table>
+   {% endif %}
+
 
    <table class="table table-bordered" style="width: 1000px" align="center" >
   <thead>
@@ -46,7 +57,7 @@
       <td>{{ x.type }}</td>
       <td><img src="{{ x.photo.url }}" width="90px" height="90px"></td>
       <td><a href="{% url 'updatecuisine' x.id %}">yes</a></td>
-      <td><a href="#">yes</a></td>
+      <td><a href="{% url 'deletecuisine' %}?cuid={{ x.id }}">yes</a></td>
 
     </tr>
   </tbody>

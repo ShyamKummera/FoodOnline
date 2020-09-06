@@ -104,7 +104,7 @@ def savecityformredirect(request):
 
 
 def savecityform(request):
-    cf = CityForm(request.POST, request.FILES)
+    cf = CityForm(request.POST,request.FILES )
     if cf.is_valid():
         cid = request.POST.get("cid",None)
         if cid:
@@ -159,7 +159,8 @@ def citydeleteconfirmNo(request):
 # ==========================================================================================
 def openCusine(request):
     cf = CuisineForm()
-    return render(request,"pwn/opencuisine.html",{"cuisine_form":cf})
+    viewcuisine = CuisineModel.objects.all()
+    return render(request,"pwn/opencuisine.html",{"cuisine_form":cf,'viewcuisine':viewcuisine})
 
 def savecuisineformredirect(request):
     viewcuisine = CuisineModel.objects.all()
@@ -193,7 +194,18 @@ def updatecuisine(request,pk):
     viewcuisine = CuisineModel.objects.all()
     return render(request, 'pwn/opencuisine.html',{'cuisine_form':cfiled,'viewcuisine':viewcuisine,"pk":pk})
 
+def deletecuisine(request):
+    did = request.GET.get("cuid")
+    viewcuisine = CuisineModel.objects.all()
+    return render(request, 'pwn/opencuisine.html', {'cuisine_form': CuisineForm(), 'viewcuisine': viewcuisine, "confirm": did})
 
+def cuisinedeleteconfirmYes(request):
+    yes_id = request.GET.get("yesid")
+    CuisineModel.objects.filter(id=yes_id).delete()
+    return redirect("savecuisineformredirect")
+
+def cuisinedeleteconfirmNo(request):
+    return redirect("savecuisineformredirect")
 # =========================================================================================
 def openVendor(request):
     return render(request,"pwn/openvendor.html")
