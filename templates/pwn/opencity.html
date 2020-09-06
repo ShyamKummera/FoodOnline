@@ -1,6 +1,7 @@
 {% extends 'pwn/welcome.html' %}
 
 {% block admin_welcome %}
+    {% load static %}
 
     <table align="center" >
     <tr>
@@ -12,7 +13,10 @@
                 <div class="card" style="padding: 20px">
                     {{ city_form.as_p }}
                 </div>
-                <h6 align="center"><button type="submit" style="width: 60px">Save</button></h6>
+                <h6 align="center">
+                    <input type="hidden" name="cid" value="{{ id }}">
+                    <button type="submit" style="width: 60px">Save</button>
+                </h6>
                 {% for x in messages %}
                 <div class="alert alert-primary" role="alert" align="center">
                         {{ x }}
@@ -23,6 +27,17 @@
         </th>
     </tr>
     </table>
+
+    {% if confirm %}
+        <table align="center" width="1000px" style="background-color: #ffc3c6;height: 50px">
+        <tr align="center">
+        <th style="font-size: 20px;color: blue">Do you want Delete this?  :&nbsp;&nbsp;&nbsp;&nbsp;
+       <a href="{% url 'citydeleteconfirmYes' %}?yesid={{ confirm }}"><img src="{% static 'images/confirm.png' %}">Yes</a>&nbsp;&nbsp;
+       <a href="{% url 'citydeleteconfirmNo' %}?noid={{ confirm }}"><img src="{% static 'images/cancel.png' %}">No</a>
+        </th>
+        </tr>
+        </table>
+   {% endif %}
 
    <table class="table table-bordered" style="width: 1000px" align="center" >
   <thead>
@@ -42,8 +57,8 @@
       <td>{{ x.name }}</td>
       <td>{{ x.city_state_id }}</td>
       <td><img src="{{ x.photo.url }}" width="90px" height="90px"></td>
-      <td><a href="#">yes</a></td>
-      <td><a href="#">yes</a></td>
+      <td><a href="{% url 'updatecity' x.id %}">yes</a></td>
+      <td><a href="{% url 'deletecity' %}?cid={{ x.id }}">yes</a></td>
     </tr>
   </tbody>
    {% endfor %}

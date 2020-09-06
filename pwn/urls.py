@@ -12,17 +12,21 @@ urlpatterns = [
     path('welcome/',views.welcome,name='welcome'),
 
     path('state/',views.openState,name='state'),
-    path('updatestate/<int:id>',views.updatestateform,name='updatestate'),
     path('savestateform',views.savestateform,name='savestateform'),
     path('savestateformredirect/',views.savestateformredirect,name='savestateformredirect'),
+    path('updatestate/<int:id>',views.updatestateform,name='updatestate'),
     path('deletestate/',views.deletestate,name='deletestate'),
-    path('deleteconfirmYes/',views.deleteconfirmYes,name='deleteconfirmYes'),
-    path('deleteconfirmNo/',views.deleteconfirmNo,name='deleteconfirmNo'),
+    path('statedeleteconfirmYes/',views.statedeleteconfirmYes,name='statedeleteconfirmYes'),
+    path('statedeleteconfirmNo/',views.statedeleteconfirmNo,name='statedeleteconfirmNo'),
 
 
     path('city/',views.openCity,name='city'),
     path('savecityform/',views.savecityform,name='savecityform'),
     path('savecityformredirect/',views.savecityformredirect,name='savecityformredirect'),
+    path('updatecity/<int:id>',views.updatecityform,name='updatecity'),
+    path('deletecity/',views.deletecity,name='deletecity'),
+    path('citydeleteconfirmYes/',views.citydeleteconfirmYes,name='citydeleteconfirmYes'),
+    path('citydeleteconfirmNo/',views.citydeleteconfirmNo,name='citydeleteconfirmNo'),
 
 
 

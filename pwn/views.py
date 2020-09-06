@@ -43,13 +43,13 @@ def savestateform(request):
         if sid:
             spk = StateModel.objects.get(id=sid)
             usf = StateForm(request.POST, request.FILES, instance=spk)
-
             if usf.is_valid():
-
                 data = usf.save(commit=False)
-
                 data.save()
                 messages.success(request, 'State Details Updated')
+                return redirect('savestateformredirect')
+            else:
+                messages.error(request, 'State Details not Valid')
                 return redirect('savestateformredirect')
         else:
             sf.save()
@@ -80,18 +80,16 @@ def updatestateform(request,id):
 
 def deletestate(request):
     did = request.GET.get("sid")
-    # StateModel.objects.filter(id=did).delete()
-    # return redirect("savestateformredirect")
     viewstate = StateModel.objects.all()
     return render(request, 'pwn/openstate.html', {'state_form': StateForm(), 'viewstate': viewstate,"confirm":did})
 
 
-def deleteconfirmYes(request):
+def statedeleteconfirmYes(request):
     yes_id = request.GET.get("yesid")
     StateModel.objects.filter(id=yes_id).delete()
     return redirect("savestateformredirect")
 
-def deleteconfirmNo(request):
+def statedeleteconfirmNo(request):
     return redirect("savestateformredirect")
 
 # ==========================================================================================
@@ -108,14 +106,57 @@ def savecityformredirect(request):
 def savecityform(request):
     cf = CityForm(request.POST, request.FILES)
     if cf.is_valid():
-        cf.save()
-        messages.success(request, 'City Details Saved')
-        return redirect('savecityformredirect')
+        cid = request.POST.get("cid",None)
+        if cid:
+            cpk = CityModel.objects.get(id=cid)
+            ucf = CityForm(request.POST,request.FILES,instance=cpk)
+            if ucf.is_valid():
+                data = ucf.save(commit=False)
+                data.save()
+                messages.success(request, 'City Details Updated')
+                return redirect('savecityformredirect')
+            else:
+                messages.error(request, 'City Details not Valid')
+                return redirect('savecityformredirect')
+        else:
+            cf.save()
+            messages.success(request, 'City Details Saved')
+            return redirect('savecityformredirect')
     else:
         messages.error(request, 'Please Enter Valid Input')
         return redirect('savecityformredirect')
 
+def updatecityform(request,id):
+    cpk = CityModel.objects.get(id=id)
+    if request.method == "POST":
+        print("This is POST")
+        cf = CityForm(request.POST or request.FILES, instance=cpk)
+        if cf.is_valid():
+            data = cf.save(commit=False)
+            data.save()
+            messages.success(request, 'City Details Saved')
+            return redirect('city')
+        else:
+            messages.error(request, 'Please Enter Valid Input')
+            return redirect('savecityformredirect')
+    else:
+        cf = CityForm(instance=cpk)
+        viewcity = CityModel.objects.all()
+        return render(request, 'pwn/opencity.html',{'city_form': cf, 'viewcity': viewcity, "id": id})
 
+def deletecity(request):
+    did = request.GET.get("cid")
+    viewcity = CityModel.objects.all()
+    return render(request,'pwn/opencity.html', {'city_form': CityForm(), 'viewcity': viewcity,"confirm":did})
+
+def citydeleteconfirmYes(request):
+    yes_id = request.GET.get("yesid")
+    CityModel.objects.filter(id=yes_id).delete()
+    return redirect("savecityformredirect")
+
+def citydeleteconfirmNo(request):
+    return redirect("savecityformredirect")
+# ==========================================================================================
 def openCusine(request):
     return render(request,"pwn/opencuisine.html")
 
