@@ -29,8 +29,15 @@ urlpatterns = [
     path('citydeleteconfirmNo/',views.citydeleteconfirmNo,name='citydeleteconfirmNo'),
 
 
-
+# ===============================================================================
     path('cuisine/',views.openCusine,name='cuisine'),
+    path('savecuisineform/',views.savecuisineform,name='savecuisineform'),
+    path('savecuisineformredirect/',views.savecuisineformredirect,name='savecuisineformredirect'),
+    path('updatecuisine/<int:pk>',views.updatecuisine,name='updatecuisine'),
+
+
+# =============================================================================================
+
     path('vendor/',views.openVendor,name='vendor'),
     path('resports/',views.openReporsts,name='reports'),
     path('logout/',views.pwn_login_check,name='logout'),

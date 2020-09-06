@@ -1,9 +1,59 @@
+
 {% extends 'pwn/welcome.html' %}
 
 {% block admin_welcome %}
+{% load static %}
+    <table align="center" >
+    <tr>
+        <th>
+            <form action="{% url 'savecuisineform' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="card" style="padding: 50px">
+                <h1 style="font-family: 'Calibri';color: blue" align="center"><b>Add Cuisine Details</b></h1>
+                <div class="card" style="padding: 20px">
+                    {{ cuisine_form.as_p }}
+                </div>
+                <h6 align="center">
+                    <input type="hidden" name="cid" value="{{ pk }}">
+                    <button type="submit" style="width: 60px">Save</button>
+                </h6>
+                {% for x in messages %}
+                <div class="alert alert-primary" role="alert" align="center">
+                        {{ x }}
+                </div>
+                {% endfor %}
+            </div>
+             </form>
+        </th>
+    </tr>
+    </table>
 
-    <div class="col-sm-6">
-          <h1>Cuisine page</h1>
-    </div>
+
+   <table class="table table-bordered" style="width: 1000px" align="center" >
+  <thead>
+    <tr align="center">
+      <th scope="col">Cuisine id</th>
+      <th scope="col">Cuisine Type</th>
+      <th scope="col">Cuisine Photo</th>
+      <th scope="col">Update</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+       {% for x in viewcuisine %}
+  <tbody>
+    <tr align="center">
+      <th scope="row">{{ x.id }}</th>
+      <td>{{ x.type }}</td>
+      <td><img src="{{ x.photo.url }}" width="90px" height="90px"></td>
+      <td><a href="{% url 'updatecuisine' x.id %}">yes</a></td>
+      <td><a href="#">yes</a></td>
+
+    </tr>
+  </tbody>
+   {% endfor %}
+
+</table>
+
+
 
 {% endblock %}

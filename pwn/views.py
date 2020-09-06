@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render,redirect
-from pwn.models import AdminLoginModel,StateModel,CityModel
-from pwn.forms import StateForm,CityForm
+from pwn.models import AdminLoginModel,StateModel,CityModel,CuisineModel
+from pwn.forms import StateForm,CityForm,CuisineForm
 
 def showIndex(request):
     return render(request,"pwn/login.html")
@@ -63,11 +63,11 @@ def updatestateform(request,id):
     spk = StateModel.objects.get(id=id)
     if request.method == 'POST':
         print("This is POST")
-        sf = StateForm(request.POST or request.FILES,instance=spk)
+        sf = StateForm(request.POST,request.FILES,instance=spk)
         if sf.is_valid():
             data = sf.save(commit=False)
             data.save()
-            messages.success(request, 'State Details Saved')
+            messages.success(request, 'State Details Updated')
             return redirect('state')
         else:
             messages.error(request, 'Please Enter Valid Input')
@@ -130,7 +130,7 @@ def updatecityform(request,id):
     cpk = CityModel.objects.get(id=id)
     if request.method == "POST":
         print("This is POST")
-        cf = CityForm(request.POST or request.FILES, instance=cpk)
+        cf = CityForm(request.POST , request.FILES, instance=cpk)
         if cf.is_valid():
             data = cf.save(commit=False)
             data.save()
@@ -158,9 +158,43 @@ def citydeleteconfirmNo(request):
     return redirect("savecityformredirect")
 # ==========================================================================================
 def openCusine(request):
-    return render(request,"pwn/opencuisine.html")
+    cf = CuisineForm()
+    return render(request,"pwn/opencuisine.html",{"cuisine_form":cf})
+
+def savecuisineformredirect(request):
+    viewcuisine = CuisineModel.objects.all()
+    return render(request, 'pwn/opencuisine.html',{'cuisine_form':CuisineForm(),'viewcuisine':viewcuisine})
+
+def savecuisineform(request):
+    cfs = CuisineForm(request.POST,request.FILES)
+    if cfs.is_valid():
+        ucf = request.POST.get("cid",None)
+        if ucf:
+            cmucf = CuisineModel.objects.get(id=ucf)
+            cfv = CuisineForm(request.POST,request.FILES,instance=cmucf)
+            if cfv.is_valid():
+                same = cfv.save(commit=False)
+                same.save()
+                messages.success(request,"Cuisine details Updated")
+                return redirect("savecuisineformredirect")
+
+        else:
+            cfs.save()
+            messages.success(request, "Cuisine details saved")
+            return redirect("savecuisineformredirect")
+    else:
+        messages.error(request,"Invalid Details")
+        return redirect("savecuisineformredirect")
 
 
+def updatecuisine(request,pk):
+    cmid = CuisineModel.objects.get(id=pk)
+    cfiled = CuisineForm(instance=cmid)
+    viewcuisine = CuisineModel.objects.all()
+    return render(request, 'pwn/opencuisine.html',{'cuisine_form':cfiled,'viewcuisine':viewcuisine,"pk":pk})
+
+
+# =========================================================================================
 def openVendor(request):
     return render(request,"pwn/openvendor.html")
 
